@@ -1,0 +1,164 @@
+Apache Spark – Overview & Working
+🔹 What is Spark?
+
+Apache Spark is an open-source unified computing engine with a set of libraries for parallel data processing on a cluster of computers.
+
+It supports multiple languages:
+
+Python (PySpark)
+
+Java
+
+Scala
+
+R
+
+⚡ Spark is built on Scala.
+
+🔹 Why is Spark Faster?
+
+Spark uses RAM (in-memory processing) instead of relying heavily on disk.
+
+Traditional Hadoop MapReduce writes intermediate results to disk after each step.
+
+Spark keeps data in memory → making it up to 100x faster than MapReduce for iterative and batch computations.
+
+🔹 How Spark Works?
+
+Spark follows a driver-executor architecture with concepts of jobs, stages, and tasks.
+
+Components:
+
+Driver (Instructor analogy)
+
+Acts as the heart of Spark.
+
+Responsibilities:
+
+Maintains executors
+
+Analyzes, distributes, and schedules work
+
+Collects and aggregates results
+
+Runs as a JVM process on the cluster’s master node.
+
+Executors (Groups analogy)
+
+Worker JVM processes running on cluster machines.
+
+Responsibilities:
+
+Execute tasks assigned by the driver
+
+Store data in memory/disk during execution
+
+Send results/status back to the driver
+
+Tasks (People analogy)
+
+The smallest unit of execution in Spark.
+
+Each executor runs multiple tasks in parallel depending on CPU cores.
+
+Example: 1 core = 1 task at a time.
+
+If we have 4 executors with 8 cores each → 32 tasks run in parallel.
+
+🔹 Jobs, Stages, and Tasks
+
+Job → Stage → Task (hierarchy)
+
+Job
+
+A Spark action (like collect(), count(), saveAsTextFile()) triggers a job.
+
+Example: Counting all marbles.
+
+Stage
+
+Spark divides jobs into stages based on shuffle boundaries.
+
+Example:
+
+Local count (count marbles inside each group) → Stage 1
+
+Global count (combine all group counts) → Stage 2
+
+Task
+
+A unit of work sent to an executor.
+
+Example: A, B, D, E counting marbles individually → tasks.
+
+🔹 Analogy: Counting Marbles
+
+Imagine we want to count all the marbles in a bag with 4 pouches:
+
+Instructor = Driver
+
+The instructor manages the whole process.
+
+Assigns work to groups of people.
+
+Groups = Executors
+
+4 groups of people (executors) are created, each group gets 1 pouch of marbles.
+
+Each group works independently.
+
+People = Tasks
+
+Inside each group, 2 people are counting marbles from their pouch.
+
+Each person’s counting activity = task.
+
+Two Types of Counting = Stages
+
+First, people in each group count marbles in their pouch (local count = Stage 1).
+
+Then, the instructor collects all local counts and adds them up to get the global count = Stage 2.
+
+Shuffle = Data Movement
+
+When local counts are sent to the instructor, information is shuffled across groups.
+
+👉 This analogy shows:
+
+Driver = Instructor
+
+Executor = Group of people
+
+Task = Each individual person counting
+
+Stages = Local vs Global counting
+
+Job = The overall goal: count all marbles
+
+🔹 Summary of Responsibilities
+
+Driver
+
+Heart of Spark
+
+Schedules and coordinates tasks
+
+Collects results
+
+Executor
+
+Runs tasks in parallel
+
+Stores intermediate data in memory/disk
+
+Reports back to driver
+
+Task
+
+Smallest execution unit
+
+Runs on executors
+
+Processes part of the data
+
+✅ With this understanding, Spark achieves parallelism + in-memory processing → making it highly efficient for big data processing.
