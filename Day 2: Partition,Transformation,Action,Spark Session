@@ -1,0 +1,38 @@
+Partition
+
+To allow every executor to work with data in parallel, the data is divided into smaller chunks. These chunks are called partitions.
+
+Transformation
+
+A transformation is an operation or instruction used to modify or transform data.
+Examples: select, groupBy, where
+
+Types of transformations:
+
+Narrow: After applying the transformation, each partition contributes to at most one output partition.
+
+Wide: After applying the transformation, each partition can contribute to more than one output partition.
+
+Action
+
+An action triggers the execution of a Spark job.
+There are three common types of actions:
+
+View data in console (e.g., show())
+
+Collect data to native language (e.g., collect())
+
+Write data to an output source (e.g., write.csv())
+
+Lazy Evaluation
+
+Spark uses lazy evaluation. It does not immediately execute transformations. Instead, it waits until an action is called to run the computation.
+
+Spark Session
+
+A Spark Session is the driver process and the entry point for Spark execution.
+
+A SparkSession instance is responsible for executing code on the cluster.
+
+The relationship is one-to-one:
+1 Spark Application = 1 Spark Session
