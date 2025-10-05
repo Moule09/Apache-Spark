@@ -30,3 +30,64 @@ sch = ['id', 'name']
 df = spark.createDataFrame(data=lst, schema=sch)
 df.show()
 df.printSchema()
+
+
++---+-----+
+| id| name|
++---+-----+
+|1.0|mohan|
+|2.0|  raj|
++---+-----+
+
+root
+ |-- id: double (nullable = true)
+ |-- name: string (nullable = true)
+
+
+🔹 Defining Schema Manually
+
+If you want to explicitly specify data types instead of letting Spark infer them,
+use StructType() and StructField() from pyspark.sql.types.
+
+
+from pyspark.sql.types import StringType, StructType, StructField, IntegerType
+
+# Sample data
+lst = [(1, 'mohan'), (2, 'raj')]
+
+# Define schema manually
+schema = StructType([
+    StructField(name='id', dataType=IntegerType()),
+    StructField(name='name', dataType=StringType())
+])
+
+# Create DataFrame with defined schema
+df = spark.createDataFrame(data=lst, schema=schema)
+df.show()
+df.printSchema()
+
+
+✅ Output
++---+-----+
+| id| name|
++---+-----+
+|  1|mohan|
+|  2|  raj|
++---+-----+
+
+root
+ |-- id: integer (nullable = true)
+ |-- name: string (nullable = true)
+
+
+🔹 Summary
+
+A DataFrame is like a distributed SQL table.
+
+It supports both automatic and manual schema definitions.
+
+You can perform operations using either:
+
+The DataFrame API, or
+
+SQL queries via spark.sql().
