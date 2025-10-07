@@ -1,0 +1,31 @@
+Day,Phase,Topics,Key Concepts,Coding Practice,Interview Focus
+1,Basics,Introduction to PySpark,"Spark architecture, SparkSession, RDD vs DataFrame",Create a simple PySpark app & read CSV,Difference between RDD and DataFrame
+2,Basics,Creating DataFrames,"createDataFrame(), inferSchema, schema definition","Create DF from list, tuple, dict",Why schema enforcement is important?
+3,Basics,Viewing & Exploring Data,"show(), printSchema(), describe()",Inspect DataFrames,What are actions vs transformations?
+4,Basics,Selecting & Renaming Columns,"select(), alias(), withColumnRenamed()",Select and rename columns,select() vs withColumn()
+5,Basics,Filtering Data,"filter(), where(), isin(), between()",Apply salary filters,Predicate pushdown concept
+6,Basics,Adding & Dropping Columns,"withColumn(), drop()",Add and drop columns,Lazy evaluation in Spark
+7,Basics,Handling Missing Values,"na.drop(), na.fill(), na.replace()",Handle nulls in dataset,Null handling in Spark
+8,Transformations,Aggregations,"groupBy(), agg(), sum(), avg(), count()",Group sales by region,groupBy vs reduceByKey
+9,Transformations,Sorting & Ordering,"orderBy(), sort(), asc(), desc()",Sort products by price,Difference between orderBy and sort
+10,Transformations,Joins,"inner, left, right, outer joins",Join employee-department,Common join errors
+11,Transformations,Union & Distinct,"union(), distinct(), dropDuplicates()",Merge datasets,Union vs UnionAll
+12,Transformations,Conditional Logic,"when(), otherwise(), lit()",Create grade column,CASE WHEN equivalent
+13,SQL,SQL Queries,"createOrReplaceTempView(), spark.sql()",Write SQL queries,Spark SQL vs PySpark API
+14,SQL,Window Functions,"row_number(), rank(), lead(), lag()",Find top 3 salaries per dept,Ranking questions
+15,Optimization,Partitions,"repartition(), coalesce(), partitionBy()",Optimize shuffle,What is shuffle in Spark?
+16,Optimization,Caching,"cache(), persist(), unpersist()",Cache reused DataFrames,When to cache and why
+17,Optimization,UDFs,"udf(), pandas_udf()",Write custom Python UDF,UDF performance issues
+18,Optimization,Broadcast Variables,"broadcast(), join optimization",Broadcast small table,Broadcast join
+19,Optimization,Explain Plans,"explain(), Spark UI basics",Compare execution plans,DAG and stages
+20,Data IO,File Formats,"CSV, JSON, Parquet, ORC",Write data to formats,Parquet advantages
+21,Data IO,Databases,"JDBC, MySQL integration",Read/write MySQL,Spark JDBC connection
+22,Projects,ETL Pipeline,Extract → Transform → Load,Build ETL with CSV,ETL vs ELT
+23,Projects,Data Cleaning,"String trim, date formatting",Clean messy data,Data quality checks
+24,Projects,Data Aggregation,Group large sales data,Summarize output,Aggregation optimization
+25,Projects,Time Columns,"date_format(), to_date(), datediff()",Calculate daily sales,Handling timestamps
+26,Projects,Logging & Error Handling,try/except + logging,Add logs,How Spark handles errors
+27,Projects,Modular Project,Split ETL into functions,Reuse transformations,Project structure questions
+28,Interview,PySpark Coding,10 common problems,Write Spark logic,Practice-based interview
+29,Interview,Scenario-Based,Real use cases,Debug/optimize code,Performance tuning
+30,Interview,Mock Interview,Revision,End-to-end Q&A,"Spark DAG, joins, UDF"
