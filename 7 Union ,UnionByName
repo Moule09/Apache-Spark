@@ -1,0 +1,94 @@
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import lit
+
+spark = SparkSession.builder.getOrCreate()
+
+# -------------------------------------------------------
+# 1️⃣ Create DataFrames
+# -------------------------------------------------------
+
+# dfA: columns in order [id, name]
+dfA = spark.createDataFrame([(1, "Alice"), (2, "Bob")], ["id", "name"])
+
+# dfB: same order [id, name]
+dfB = spark.createDataFrame([(3, "Charlie"), (4, "David")], ["id", "name"])
+
+# dfC: same column names but DIFFERENT order [name, id]
+dfC = spark.createDataFrame([("Eve", 5), ("Frank", 6)], ["name", "id"])
+
+# dfD: missing 'name' column
+dfD = spark.createDataFrame([(7,), (8,)], ["id"])
+
+
+# -------------------------------------------------------
+# 2️⃣ union() – matches columns by POSITION (dangerous!)
+# -------------------------------------------------------
+
+print("union() with SAME column order ✅")
+dfA.union(dfB).show()
+# ✅ Correct output
+# +---+-------+
+# | id|   name|
+# +---+-------+
+# |  1|  Alice|
+# |  2|    Bob|
+# |  3|Charlie|
+# |  4|  David|
+# +---+-------+
+
+print("union() with DIFFERENT column order ❌ (WRONG)")
+dfA.union(dfC).show()
+# ⚠ WRONG output (values misaligned!)
+# +---+-----+
+# | id| name|
+# +---+-----+
+# |  1|Alice|
+# |  2|  Bob|
+# |Eve|    5|
+# |Frank|  6|
+# +---+-----+
+# "Eve" goes into id column because union() uses POSITION!
+
+
+# -------------------------------------------------------
+# 3️⃣ unionByName() – matches columns by NAME (safe!)
+# -------------------------------------------------------
+
+print("unionByName() with different order ✅ (correct)")
+dfA.unionByName(dfC).show()
+# ✅ Correct output
+# +---+-------+
+# | id|   name|
+# +---+-------+
+# |  1|  Alice|
+# |  2|    Bob|
+# |  5|    Eve|
+# |  6|  Frank|
+# +---+-------+
+
+
+# -------------------------------------------------------
+# 4️⃣ unionByName() with missing column (allowMissingColumns=True)
+# -------------------------------------------------------
+
+print("unionByName() with allowMissingColumns=True ✅")
+dfA.unionByName(dfD, allowMissingColumns=True).show()
+# ✅ Missing 'name' filled with NULL
+# +---+-----+
+# | id| name|
+# +---+-----+
+# |  1|Alice|
+# |  2|  Bob|
+# |  7| null|
+# |  8| null|
+# +---+-----+
+
+
+# -------------------------------------------------------
+# ✅ Summary (in code comments)
+# -------------------------------------------------------
+# union()          -> matches columns by POSITION, risky if order differs
+# unionByName()    -> matches columns by NAME, safer
+# allowMissingColumns=True -> fills missing columns with NULL
+#
+# BOTH behave like UNION ALL (do not remove duplicates)
