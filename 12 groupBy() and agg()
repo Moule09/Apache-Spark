@@ -1,0 +1,34 @@
+Q4: What is the use of groupBy() and agg() in PySpark?
+
+Summary:
+
+Used for aggregation similar to SQL GROUP BY.
+
+groupBy() → groups data by column(s).
+
+agg() → applies aggregation functions (sum, avg, count, etc.)
+
+
+Code : 
+from pyspark.sql import functions as F
+
+df.groupBy("name").agg(
+    F.sum("sales").alias("total_sales"),
+    F.avg("sales").alias("avg_sales"),
+    F.count("sales").alias("transactions")
+).show()
+
+
+Important Points:
+
+✅ groupBy() = SQL-style grouping.
+
+✅ agg() = multiple aggregations at once.
+
+✅ Can group by multiple columns.
+
+✅ Common functions → sum(), avg(), count(), max(), min().
+
+✅ Use .alias() to rename aggregated columns.
+
+✅ Useful in analytics, reports, and KPI calculations.
