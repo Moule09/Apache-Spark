@@ -1,0 +1,47 @@
+# Sample DataFrames
+data1 = [("Alice", 34), ("Bob", 45)]
+df1 = spark.createDataFrame(data1, ["name", "age"])
+
+data2 = [("Charlie", 29, "New York"), ("David", 50, "Los Angeles")]
+df2 = spark.createDataFrame(data2, ["name", "age", "city"])
+
+# union() - Requires exact matching schemas (same number of columns and names)
+try:
+    # This will throw an error because the schemas do not match
+    df_union = df1.union(df2)  # Error: Columns do not match
+except Exception as e:
+    print("union() Error:", e)  # Output: union() Error: union() can only be performed on DataFrames with the same number of columns and names.
+
+# unionByName() - Combines DataFrames based on column names, even with different schemas
+# Allows combining DataFrames with mismatched columns and can handle missing columns using allowMissingColumns=True
+df_union_by_name = df1.unionByName(df2, allowMissingColumns=True)
+
+# Displaying the combined DataFrame
+df_union_by_name.show()
+
+# Output:
+# +-------+---+-------------+
+# |   name|age|         city|
+# +-------+---+-------------+
+# |  Alice| 34|         null|
+# |    Bob| 45|         null|
+# |Charlie| 29|     New York|
+# |  David| 50|  Los Angeles|
+# +-------+---+-------------+
+
+
+Important Points in the Code:
+
+union():
+
+Requires identical schemas: Same number and names of columns.
+
+Error if schemas don’t match.
+
+unionByName():
+
+Combines based on column names, even if columns are missing.
+
+Use allowMissingColumns=True to handle missing columns.
+
+Useful when schemas differ (e.g., missing or reordered columns).
