@@ -1,0 +1,75 @@
+Q3: What is the difference between filter() and where() in PySpark?
+Summary:
+
+Both are used to filter rows based on a condition.
+
+where() is just an alias for filter() — both work exactly the same.
+
+You can use either column expressions or SQL-style string conditions.
+
+There’s no performance difference between the two.
+
+# Sample DataFrame
+data = [("Alice", 34, "NY"),
+        ("Bob", 45, "LA"),
+        ("Charlie", 29, "SF"),
+        ("David", 50, "NY")]
+df = spark.createDataFrame(data, ["name", "age", "city"])
+
+# -------------------------------
+# Using filter() with column expression
+# -------------------------------
+df_filter = df.filter(df.age > 30)
+df_filter.show()
+
+# Output:
+# +-------+---+-----+
+# |   name|age| city|
+# +-------+---+-----+
+# |  Alice| 34|   NY|
+# |    Bob| 45|   LA|
+# |  David| 50|   NY|
+# +-------+---+-----+
+
+# -------------------------------
+# Using where() with the same condition
+# -------------------------------
+df_where = df.where(df.age > 30)
+df_where.show()
+
+# Output: Same as filter()
+
+# -------------------------------
+# Using SQL-style condition inside filter() or where()
+# -------------------------------
+df_sql_style = df.filter("age > 30 AND city = 'NY'")
+df_sql_style.show()
+
+# Output:
+# +-----+---+---+
+# | name|age|city|
+# +-----+---+---+
+# |Alice| 34| NY|
+# |David| 50| NY|
+# +-----+---+---+
+
+Important Points:
+
+filter() and where() are identical — use whichever improves readability.
+
+Support two styles:
+
+Column Expression → df.filter(df.age > 30)
+
+SQL String Expression → df.where("age > 30 AND city = 'NY'")
+
+No performance difference — both compile to the same execution plan.
+
+Use Case: Common in data cleaning and pre-aggregation steps.
+
+Tip: Use where() in SQL-like pipelines for clarity.
+
+✅ Interview Tip:
+If the interviewer asks which one to use — say “Both are the same internally; I prefer where() when writing SQL-style logic and filter() when chaining DataFrame transformations.”
+
+
