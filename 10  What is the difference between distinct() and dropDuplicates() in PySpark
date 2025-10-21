@@ -1,0 +1,54 @@
+Q2: What is the difference between distinct() and dropDuplicates() in PySpark?
+Summary:
+
+distinct(): Removes rows where all columns are duplicates.
+
+dropDuplicates(): Removes duplicates based on specific column(s).
+
+# Sample DataFrame with duplicate rows
+data = [("Alice", "NY", 34), 
+        ("Bob", "LA", 45), 
+        ("Alice", "NY", 34), 
+        ("Charlie", "SF", 29), 
+        ("Alice", "NY", 34)]
+df = spark.createDataFrame(data, ["name", "city", "age"])
+
+# Using distinct() - Removes rows where all columns match
+df_distinct = df.distinct()
+df_distinct.show()
+
+# Output:
+# +-------+-----+---+
+# |   name| city|age|
+# +-------+-----+---+
+# |  Alice|   NY| 34|
+# |    Bob|   LA| 45|
+# |Charlie|   SF| 29|
+# +-------+-----+---+
+
+# Using dropDuplicates() - Removes rows based on specific column(s)
+df_drop_duplicates = df.dropDuplicates(["name"])  # Removes rows with duplicate 'name' values
+df_drop_duplicates.show()
+
+# Output:
+# +-------+-----+---+
+# |   name| city|age|
+# +-------+-----+---+
+# |  Alice|   NY| 34|
+# |    Bob|   LA| 45|
+# |Charlie|   SF| 29|
+# +-------+-----+---+
+
+Important Points:
+
+distinct():
+
+Removes duplicates by considering all columns.
+
+Only keeps rows that are completely unique across all columns.
+
+dropDuplicates():
+
+Removes duplicates based on specific column(s).
+
+Provides more flexibility by specifying which columns to consider for uniqueness.
